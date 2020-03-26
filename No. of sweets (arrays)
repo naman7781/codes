@@ -1,0 +1,84 @@
+Xenon has A number of sweets , but his lucky number is B . Everynight he takes a decision to eat a sweet or not. If he chooses to eat , then his number of sweets will get decreased by one and if he chooses not to eat , then number of sweets gets doubled. Xenon wants to make his number of sweets exactly equal to B in minimum number of nights. You have to print his optimal decision for Everynight . If he eats a sweet at ith night then print "eat" otherwise print "overflow" .
+
+Input:
+First line of input contains a positive integer T denoting number of test cases . For each test case , first line contains two space seperated positive integers A (initial number of sweets) and B (lucky number) . 
+
+Output:
+For each test case , print the sequence of "eat" and "overflow" until number of sweets becomes exactly equal to B
+
+Constraints:
+1 <= T <= 100
+1 <=  A , B <= 10000
+
+Your Task:
+This is a funcional problem , you don't need to take input . Complete the function getDecision() which accepts two positive integers A and B as parameters and returns a vector of strings.
+
+Example:
+Input:
+2
+5 8
+1 9
+Output:
+eat overflow
+overflow overflow eat overflow eat overflow eat
+
+Explanation:
+Testcase 1: The fastest way to reach 8 from 5 would be 5-4-8 .
+Testcase 2: The fastest way to reach 9 from 1 would be 1-2-4-3-6-5-10-9.
+ 
+
+code------------
+
+//C++
+
+// Function to find minimum 
+// number of given operations 
+// to convert a to b
+int convert(int m, int n , vector<string>&v) 
+{ 
+	
+	if (m == n) 
+		return 0; 
+
+	// only way is to do 
+	// -1 (m - n) times 
+	if (m > n) 
+		{
+			for(int i=0;i<(m-n);i++)
+				v.push_back("eat");
+			return m - n;
+		}
+	
+
+	// not possible 
+	if (m <= 0 && n > 0) 
+		return -1; 
+
+	// n is greater and n is odd 
+	if (n % 2 == 1) 
+		{
+		
+		// perform '-1' on m 
+		// (or +1 on n) 
+		//v.push_back(n+1);
+		v.push_back("eat");
+		return 1 + convert(m, n + 1,v); 
+		}
+	// n is even 
+	else
+	{
+	
+		// perform '*2' on m 
+		// (or n/2 on n) 
+		//v.push_back(n/2);
+		v.push_back("overflow");
+		return 1 + convert(m, n / 2,v); 
+	}
+} 
+vector<string>getDecision(int m , int n)
+{
+	vector<string>s;
+	convert(m,n,s);
+	reverse(s.begin(),s.end());
+	return s;
+}
